@@ -1,0 +1,42 @@
+/* Minimal retro vibe for setup */
+:root {
+  --bg: #0f0f10;
+  --fg: #e6e6e6;
+  --accent: #33ff99;
+  --muted: #88a;
+}
+html, body {
+  height: 100%;
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", monospace;
+}
+.container {
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  gap: 1rem;
+  padding: 2rem;
+  text-align: center;
+}
+h1 {
+  letter-spacing: 1px;
+  text-shadow: 0 0 8px #000;
+}
+button {
+  font: inherit;
+  padding: 0.6rem 1rem;
+  border: 2px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  border-radius: 12px;
+  cursor: pointer;
+}
+button:hover {
+  background: rgba(51, 255, 153, 0.1);
+}
+.status {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
