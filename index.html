@@ -3,15 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Indigo Quiz (Setup)</title>
+  <title>Indigo Quiz — Prototype</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="container">
-    <h1>Indigo Quiz</h1>
-    <p class="status">Setup OK — v0.0.1</p>
-    <button id="btn-test">Test JS</button>
+    <h1>Indigo Quiz — Prototype</h1>
+
+    <section id="hud" class="hud">
+      <div>Question <span id="qnum">1</span>/<span id="qtotal">3</span></div>
+      <div>Score: <span id="score">0</span></div>
+      <div><button id="themeBtn" type="button" class="small">Retro: OFF</button></div>
+      <div><button id="rosterBtn" type="button" class="small">View Roster</button></div>
+    </section>
+
+    <section id="quiz" class="card">
+      <h2 id="prompt">Loading…</h2>
+      <form id="choices" class="choices"></form>
+
+      <div class="controls">
+        <button id="submitBtn" type="button">Submit</button>
+        <button id="nextBtn" type="button" disabled>Next</button>
+      </div>
+
+      <p id="feedback" class="feedback"></p>
+    </section>
   </main>
+
+  <!-- Catch Popup -->
+  <div id="catchModal" class="modal" hidden>
+    <div class="modal-card">
+      <h3 id="catchTitle">You caught a Pokémon!</h3>
+      <p id="catchDesc">Felipe will be proud.</p>
+      <ul id="catchStats"></ul>
+      <button id="catchClose" type="button" class="small">Close</button>
+    </div>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
+

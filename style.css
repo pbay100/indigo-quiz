@@ -40,3 +40,116 @@ button:hover {
   color: var(--muted);
   font-size: 0.9rem;
 }
+
+/* Quiz UI */
+.hud {
+  display: flex;
+  gap: 2rem;
+  opacity: 0.9;
+}
+.card {
+  width: min(800px, 92vw);
+  border: 2px solid var(--accent);
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  text-align: left;
+  background: rgba(255,255,255,0.02);
+}
+#prompt {
+  margin: 0.25rem 0 0.75rem;
+}
+.choices {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0.75rem 0 1rem;
+}
+.choice {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 10px;
+}
+.controls {
+  display: flex;
+  gap: 0.75rem;
+  margin: 0.25rem 0 0.5rem;
+}
+.feedback {
+  min-height: 1.4em;
+  color: var(--muted);
+}
+.correct { color: #6df2a8; }
+.wrong   { color: #ff8a8a; }
+
+/* --- Retro theme toggle (boosted visuals) --- */
+button.small {
+  padding: 0.35rem 0.6rem;
+  font-size: 0.9rem;
+  border-radius: 8px;
+}
+
+body.retro {
+  background: #0b0f0b; /* slightly green-tinted dark */
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 1px rgba(0,0,0,0.7);
+  image-rendering: pixelated;
+}
+
+/* Scanlines + vignette + green phosphor glow */
+body.retro::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background:
+    linear-gradient(rgba(0,0,0,0.14) 50%, rgba(0,0,0,0) 50%) 0 0 / 100% 2px, /* scanlines */
+    radial-gradient(ellipse at center, rgba(0,255,170,0.05), rgba(0,0,0,0)) 0 0 / 100% 100%, /* phosphor glow */
+    radial-gradient(circle at center, rgba(0,0,0,0), rgba(0,0,0,0.55)); /* vignette */
+  mix-blend-mode: multiply;
+  opacity: 0.9;
+}
+
+/* Card glow in retro mode */
+body.retro .card {
+  box-shadow:
+    0 0 22px rgba(51,255,153,0.25),
+    inset 0 0 14px rgba(51,255,153,0.15);
+  border-color: #4cffb5;
+}
+
+/* Headline glow */
+body.retro h1 {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 10px rgba(51,255,153,0.4);
+}
+/* --- Catch modal (test) --- */
+.modal {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0,0,0,0.6);
+  z-index: 10000;
+}
+.modal-card {
+  width: min(520px, 92vw);
+  border: 2px solid var(--accent);
+  border-radius: 14px;
+  background: rgba(25, 30, 28, 0.95);
+  padding: 1rem 1.25rem;
+  text-align: left;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+}
+.modal-card h3 { margin: 0 0 0.5rem; }
+.modal-card ul {
+  margin: 0.5rem 0 1rem;
+  padding-left: 1rem;
+  line-height: 1.5;
+}
+/* Ensure hidden modal is actually hidden (Safari-safe) */
+.modal[hidden] { display: none !important; }
+
