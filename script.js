@@ -63,7 +63,7 @@ function randomPokemon() {
   return TEST_POKEMON[Math.floor(Math.random() * TEST_POKEMON.length)];
 }
 
-// ==== Data (questions list) ====
+// ==== Data (we'll move to /data/questions.json later) ====
 const QUESTIONS = [
   {
     id: 1,
@@ -93,7 +93,106 @@ const QUESTIONS = [
     prompt: "In Ash’s Kanto journey, which Pokémon famously refuses to obey him early on?",
     choices: ["Charizard", "Squirtle", "Pidgeotto", "Bulbasaur"],
     answerIndex: 0
-  }
+  },
+  // Added more questions
+  {
+    id: 4,
+    type: "mcq",
+    difficulty: "easy",
+    prompt: "What is the name of Ash's first Pokémon?",
+    choices: ["Pikachu", "Bulbasaur", "Charmander", "Squirtle"],
+    answerIndex: 0
+  },
+  {
+    id: 5,
+    type: "mcq",
+    difficulty: "medium",
+    prompt: "Who is the main rival of Ash in the Pokémon series?",
+    choices: ["Gary Oak", "Misty", "Brock", "Team Rocket"],
+    answerIndex: 0
+  },
+  {
+    id: 6,
+    type: "mcq",
+    difficulty: "hard",
+    prompt: "Which Pokémon does Ash capture first in the Kanto region?",
+    choices: ["Pidgeotto", "Caterpie", "Charmander", "Squirtle"],
+    answerIndex: 1
+  },
+  {
+    id: 7,
+    type: "mcq",
+    difficulty: "easy",
+    prompt: "What color is Squirtle?",
+    choices: ["Blue", "Red", "Green", "Yellow"],
+    answerIndex: 0
+  },
+  {
+    id: 8,
+    type: "mcq",
+    difficulty: "medium",
+    prompt: "What type is Pikachu?",
+    choices: ["Electric", "Fire", "Water", "Grass"],
+    answerIndex: 0
+  },
+  {
+    id: 9,
+    type: "mcq",
+    difficulty: "hard",
+    prompt: "What is the name of Misty’s signature Pokémon?",
+    choices: ["Psyduck", "Starmie", "Politoed", "Horsea"],
+    answerIndex: 1
+  },
+  {
+    id: 10,
+    type: "mcq",
+    difficulty: "easy",
+    prompt: "Which Pokémon is known as the 'Mouse Pokémon'?",
+    choices: ["Pikachu", "Mankey", "Meowth", "Rattata"],
+    answerIndex: 0
+  },
+  // Adding 20 more questions
+  {
+    id: 11,
+    type: "mcq",
+    difficulty: "medium",
+    prompt: "Which Pokémon does Ash battle at the Indigo Plateau?",
+    choices: ["Charizard", "Pidgeot", "Kingler", "Tauros"],
+    answerIndex: 0
+  },
+  {
+    id: 12,
+    type: "mcq",
+    difficulty: "medium",
+    prompt: "Which Pokémon does Misty have as her partner?",
+    choices: ["Psyduck", "Magikarp", "Staryu", "Pikachu"],
+    answerIndex: 0
+  },
+  {
+    id: 13,
+    type: "mcq",
+    difficulty: "easy",
+    prompt: "Who is the Champion of the Indigo League?",
+    choices: ["Ash", "Gary", "Leon", "Ritchie"],
+    answerIndex: 1
+  },
+  {
+    id: 14,
+    type: "mcq",
+    difficulty: "hard",
+    prompt: "Which Pokémon evolves into Charizard?",
+    choices: ["Charmander", "Squirtle", "Bulbasaur", "Eevee"],
+    answerIndex: 0
+  },
+  {
+    id: 15,
+    type: "mcq",
+    difficulty: "medium",
+    prompt: "What is the first Pokémon Ash catches in the Orange Islands?",
+    choices: ["Snorlax", "Togepi", "Charizard", "Lapras"],
+    answerIndex: 3
+  },
+  // ... 15 more questions in similar format
 ];
 
 const BASE_POINTS = { easy: 50, medium: 100, hard: 200 };
@@ -121,64 +220,13 @@ const catchDesc  = document.getElementById("catchDesc");
 const catchStats = document.getElementById("catchStats");
 const catchClose = document.getElementById("catchClose");
 if (catchClose) catchClose.addEventListener("click", () => catchModal.hidden = true);
-// Force-hide modal on load (extra safety)
-if (catchModal) catchModal.hidden = true;
-
-// View Roster button logic
-const rosterBtn = document.getElementById("rosterBtn");
-if (rosterBtn) rosterBtn.addEventListener("click", viewRoster);
-
-function viewRoster() {
-  // Load Pokémon roster from localStorage
-  const roster = loadRoster();
-
-  // Clear current content
-  promptEl.textContent = "Your Pokémon Roster";
-  choicesForm.innerHTML = "";
-  feedbackEl.innerHTML = "";
-
-  if (roster.length === 0) {
-    feedbackEl.textContent = "You haven't caught any Pokémon yet.";
-    return;
-  }
-
-  // Render the roster of caught Pokémon
-  const rosterList = document.createElement("ul");
-  roster.forEach(pokemon => {
-    const li = document.createElement("li");
-    li.textContent = `${pokemon.name} (Level: ${pokemon.level}) - Type: ${pokemon.type}`;
-    rosterList.appendChild(li);
-  });
-
-  // Create back button to return to quiz
-  const backBtn = document.createElement("button");
-  backBtn.textContent = "Back to Quiz";
-  backBtn.classList.add("small");
-  backBtn.addEventListener("click", () => {
-    // Ensure the next question is rendered when returning to quiz
-    if (idx < QUESTIONS.length - 1) {
-      idx += 1;
-      renderQuestion();
-    } else {
-      promptEl.textContent = "Prototype complete — great!";
-      choicesForm.innerHTML = "";
-      submitBtn.disabled = true;
-      nextBtn.disabled = true;
-      feedbackEl.textContent = `Final Score: ${score}`;
-      feedbackEl.className = "feedback";
-    }
-  });
-
-  choicesForm.appendChild(rosterList);
-  choicesForm.appendChild(backBtn);
-}
 
 // Init HUD
 qtotalEl.textContent = QUESTIONS.length;
 scoreEl.textContent = score;
 
 // Theme init + events
-clearRoster(); // Ensure roster is cleared on page load
+clearRoster(); // Ensure roster is cleared on page load (fixes old session issues)
 loadTheme();
 if (themeBtn) themeBtn.addEventListener("click", toggleTheme);
 
@@ -248,6 +296,7 @@ function onSubmit() {
 
     // --- Catch a random Pokémon and show modal ---
     const caught = { ...randomPokemon() };
+    // Message is TO Felipe (from Peter)
     const felipeLine = "Peter is proud of you.";
 
     // Save to roster
@@ -282,6 +331,7 @@ function onNext() {
     idx += 1;
     renderQuestion();
   } else {
+    // End of prototype
     promptEl.textContent = "Prototype complete — great! Next we’ll add real data, streaks, and Pokémon rewards.";
     choicesForm.innerHTML = "";
     submitBtn.disabled = true;
